@@ -2,7 +2,7 @@
 const colors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44', '#FF44FF', '#FF8844'];
 
 // Limit how many floating balloons at once (adjusted per screen size)
-let MAX_BALLOONS = 10;
+let MAX_BALLOONS = 15;
 let SPAWN_INTERVAL = 1400;
 if (window.innerWidth <= 480) {
     MAX_BALLOONS = 4;
@@ -163,7 +163,7 @@ function createConfettiBurst() {
         const angle = (Math.PI * 2 * i) / confettiCount;
         const distance = 200 + Math.random() * 150; // 200-350px distance
         const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
+        const ty = Math.sin(angle) * distance; 
 
         confetti.style.setProperty('--tx', tx + 'px');
         confetti.style.setProperty('--ty', ty + 'px');
