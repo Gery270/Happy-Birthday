@@ -5,10 +5,10 @@ const colors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44', '#FF44FF', '#FF8844'
 let MAX_BALLOONS = 15;
 let SPAWN_INTERVAL = 1400;
 if (window.innerWidth <= 480) {
-    MAX_BALLOONS = 4;
+    MAX_BALLOONS = 6;
     SPAWN_INTERVAL = 2000;
 } else if (window.innerWidth <= 768) {
-    MAX_BALLOONS = 6;
+    MAX_BALLOONS = 8;
     SPAWN_INTERVAL = 1600;
 }
 
