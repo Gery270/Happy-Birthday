@@ -140,14 +140,20 @@ document.addEventListener('mousemove', function(e) {
     }
 });
 
-// Confetti sparkle effect on page load
-function createConfettiBurst() {
-    const textElement = document.querySelector('.birthday-text');
-    if (!textElement) return;
+// Confetti sparkle effect; can be called with optional coordinates (x, y).
+function createConfettiBurst(x, y) {
+    let centerX, centerY;
 
-    const rect = textElement.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    if (typeof x === 'number' && typeof y === 'number') {
+        centerX = x;
+        centerY = y;
+    } else {
+        const textElement = document.querySelector('.birthday-text');
+        if (!textElement) return;
+        const rect = textElement.getBoundingClientRect();
+        centerX = rect.left + rect.width / 2;
+        centerY = rect.top + rect.height / 2;
+    }
 
     const confettiCount = 60;
     const colors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44', '#FF44FF', '#FF8844'];
@@ -163,7 +169,7 @@ function createConfettiBurst() {
         const angle = (Math.PI * 2 * i) / confettiCount;
         const distance = 200 + Math.random() * 150; // 200-350px distance
         const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance; 
+        const ty = Math.sin(angle) * distance;
 
         confetti.style.setProperty('--tx', tx + 'px');
         confetti.style.setProperty('--ty', ty + 'px');
@@ -177,6 +183,49 @@ function createConfettiBurst() {
 
 // Trigger confetti on page load
 window.addEventListener('load', createConfettiBurst);
+
+// Trigger confetti at the pointer location when clicking/tapping anywhere
+document.addEventListener('click', function(e) {
+    // Use clientX/clientY so confetti appears where the user clicked
+    createConfettiBurst(e.clientX, e.clientY);
+});
+
+document.addEventListener('touchstart', function(e) {
+    if (e.touches && e.touches.length) {
+        const t = e.touches[0];
+        createConfettiBurst(t.clientX, t.clientY);
+    }
+});
+
+// Also trigger confetti when the main birthday text is clicked or activated via keyboard
+(function attachConfettiClick() {
+    const birthdayText = document.querySelector('.birthday-text');
+    if (!birthdayText) return;
+
+    // make it keyboard-focusable and announceable as a control
+    if (!birthdayText.hasAttribute('tabindex')) birthdayText.setAttribute('tabindex', '0');
+    if (!birthdayText.hasAttribute('role')) birthdayText.setAttribute('role', 'button');
+    birthdayText.style.cursor = 'pointer';
+
+    // Clicks on the birthday text are handled globally to avoid double bursts,
+    // so we intentionally do NOT attach a local click handler here.
+
+    birthdayText.addEventListener('keydown', (e) => {
+        // Activate on Enter or Space
+        if (e.key === 'Enter' || e.key === ' ' || e.code === 'Space') {
+            e.preventDefault();
+            createConfettiBurst();
+        }
+    });
+
+    // Prevent mouse/touch from showing the browser's default focus ring.
+    // Keyboard focus (tab/Enter) remains accessible.
+    birthdayText.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' || e.pointerType === 'touch' || e.pointerType === 'pen') {
+            e.preventDefault();
+        }
+    });
+})();
 
 // fadeOut keyframes used by sparkles
 const style = document.createElement('style');

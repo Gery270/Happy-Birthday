@@ -33,6 +33,45 @@ body {
     padding: 20px;
 }
 
+/* Small responsive signature below the main text */
+.signature {
+    margin-top: 10px;
+    color: #ffffff; /* consistent single color */
+    font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.7rem, 2.2vw, 1rem); /* much smaller than main title */
+    opacity: 0.92;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    user-select: none;
+}
+
+@media (max-width: 480px) {
+    .signature {
+        margin-top: 8px;
+        font-size: clamp(0.65rem, 3.5vw, 0.95rem);
+    }
+}
+
+/* CTA text that looks like the signature but slightly larger and with more spacing */
+.cta-text {
+    margin-top: 28px; /* larger gap from the main heading (increased) */
+    color: #ffffff;
+    font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 3.6vw, 1.4rem); /* increased size: noticeably bigger than signature */
+    opacity: 0.96;
+    letter-spacing: 0.03em;
+    user-select: none;
+}
+
+@media (max-width: 480px) {
+    .cta-text {
+        margin-top: 22px;
+        font-size: clamp(0.9rem, 5.0vw, 1.25rem);
+    }
+}
+
 .birthday-text {
     display: flex;
     flex-wrap: wrap;
@@ -40,6 +79,19 @@ body {
     gap: 1rem; /* space between words */
     align-items: center;
 }
+
+/* Mobile tap and focus tweaks: remove the default blue/tap highlight on touch
+   while preserving keyboard-visible focus via :focus-visible. */
+.birthday-text {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+    outline: none; /* remove UA focus rectangle on some mobile browsers */
+}
+
+/* Remove the default blue focus rectangle on click, but keep
+   a subtle accessible focus indicator for keyboard users. */
+/* focus-visible rule removed per user request; keyboard focus isn't specially styled */
 
 .word {
     display: flex;
